@@ -1,0 +1,52 @@
+org: gulfappdeveloper
+app: aws-node-express-api-project1
+service: aws-node-express-api-project1
+frameworkVersion: '3'
+
+custom:
+  bucket: sample1gulfappdeveloper
+
+
+provider:
+    name: aws
+    runtime: nodejs14.x
+    stage: dev
+    region: ap-south-1
+    apiGateway:
+      binaryMediaTypes:
+        '*/*'
+    iam:
+      role:
+        statements:
+         - Effect: Allow
+           Action:
+             - 's3:GetObject'
+             - 's3:PutObject'
+           Resource:
+             - 'arn:aws:s3:::sample1gulfappdeveloper/*'
+         
+
+   
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+    environment:
+      BUCKET: ${self:custom.bucket}
+
+
+resources:
+  Resources:
+    StorageBucket:
+      Type: "AWS::S3::Bucket"
+      
+
+   
+
+
+               
+
+            
+     
